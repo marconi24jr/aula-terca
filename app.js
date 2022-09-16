@@ -1,81 +1,99 @@
 const express = require('express');
 const res = ('express/lib/response');
-
-const app = express();
 const port = process.env.PORT || 3000;
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-let movies = [
+let disciplinas = [
     {
         id:"1",
-        titulo:"Inception",
-        diretor:"Christopher Nolan",
-        lancamento:"16/07/2010"
+        disciplina:"Análise e Projeto de Software",
+        professor:"Davi Maia"
     },
     {
         id:"2",
-        titulo:"The Irishman",
-        diretor:"Martin Scorsese",
-        lancamento: "27/09/2019" 
-    }
+        disciplina:"Computação em Nuvem e Web Services",
+        professor:"Lúcio Monteiro"
+    },
+    {
+        id: "3",
+        disciplina: "Inovação e Empreendedorismo",
+        professor: "Guilherme Reinaldo"
+      },
+    {
+        id: "4",
+        disciplina: "Arquitetura de Software",
+        professor: "Arthur"
+      },
+    {
+        id: "5",
+        disciplina: "Estatística Aplicada (A Data Science)",
+        professor: "Davi Maia"
+      },
+    {
+        id: "6",
+        disciplina: "Projeto Integrador 3",
+        professor: "Arthur"
+      }
 ]
 
 
-app.get("/movie", (req, res) => {
-    res.json(movies);
+app.get("/disciplina", (req, res) => {
+    res.json(disciplinas);
 });
 
-app.post('/movie', (req, res) => {
-    const movie = req.body
+app.post('/disciplina', (req, res) => {
+    const disciplina = req.body
 
-    console.log(movie);
-    movies.push(movie);
-    res.send('Filme adicionado a lista!');
+    console.log(disciplina);
+    disciplinas.push(disciplina);
+    
+    res.send('Disciplina adicionada a lista!');
 });
 
-app.put('/movie/:id', (req, res) => {
-    const newMovie = req.body
+app.put('/disciplina/:id', (req, res) => {
+    const newdisciplina = req.body
     const id = req.params.id
 
-    for (let movie of movies) {
-        if(movie.id === id) {
-            movie.titulo = newMovie.titulo
-            movie.diretor = newMovie.diretor
-            movie.lancamento = newMovie.lancamento
-            res.json(movie)
+    for (let disciplina of disciplinas) {
+        if(disciplina.id === id) {
+            disciplina.disciplina = newdisciplina.disciplina
+            disciplina.professor = newdisciplina.professor
+            res.json(disciplina)
             return
         }
     }
 
-    res.send('Filme atualizado!');
+    res.send('Disciplina atualizada!');
 });
 
 
-app.get('/movie/:id', (req,res) => {
+app.get('/disciplina/:id', (req,res) => {
     const id = req.params.id
 
-    for (let movie of movies) {
-        if(movie.id === id) {
-            res.json(movie)
+    for (let disciplina of disciplinas) {
+        if(disciplina.id === id) {
+            res.json(disciplina)
             return
         }
     }
-    res.status(404).send('movie not found!')
+    res.status(404).send('disciplina not found!')
 })
 
 
-app.delete('/movie/:id', (req,res) => {
+app.delete('/disciplina/:id', (req,res) => {
     const id = req.params.id
 
-    movies = movies.filter(movie => {
-        if (movie.id !== id) {
+    disciplinas = disciplinas.filter(disciplina => {
+        if (disciplina.id !== id) {
             return true;
         }
         return false;
     });
-    res.send("Filme foi apagado!");
+    res.send("Disciplina foi apagada!");
 });
 
 app.listen(port, () => console.log(`Servidor iniciado na porta ${port}`));
+
